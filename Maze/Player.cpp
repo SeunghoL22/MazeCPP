@@ -2,19 +2,11 @@
 #include "Player.h"
 #include "Board.h"
 
-Pos front[4] =
-{
-	Pos(-1,0), //UP
-	Pos(0,-1), //LEFT
-	Pos(1,0), //DOWN
-	Pos(0,1) //RIGHT
-};
 
 void Player::Init(Board* board)
 {
 	_pos = board->GetEnterPos();
 	_board = board;
-
 	CalculatePath();
 }
 
@@ -50,39 +42,6 @@ bool Player::CanGo(Pos pos)
 		return false;
 }
 
-bool Player::CanTurn(Pos pos)
-{
-	Pos turnPos = pos + front[_dir - 1];
-
-	switch (_dir) 
-	{
-	case DIR_UP:
-		if (CanGo(turnPos))
-			return true;
-		return false;
-		break;
-
-	case DIR_LEFT:
-		if (CanGo(turnPos))
-			return true;
-		return false;
-		break;
-
-	case DIR_DOWN:
-		if (CanGo(turnPos))
-			return true;
-		return false;
-		break;
-
-	case DIR_RIGHT:
-		if (CanGo(turnPos))
-			return true;
-		return false;
-		break;
-	}
-	
-}
-
 void Player::CalculatePath() //인공지능
 {
 	Pos pos = _pos;
@@ -94,23 +53,22 @@ void Player::CalculatePath() //인공지능
 	//목적지
 	Pos dest = _board->GetExitPos();
 
-	//for (int i = 0; i < 10; i++)
-	//{
-	//	pos += Pos(1, 0);
-	//	_path.push_back(pos);
-	//}
+	Pos front[4] =
+	{
+		Pos(-1,0), //UP
+		Pos(0,-1), //LEFT
+		Pos(1,0), //DOWN
+		Pos(0,1) //RIGHT
+	};
 
 	while (pos != dest)
 	{
-		
-
 		Pos nextPos = pos + front[_dir];
-		Pos turnPos; //이거 지우고CanTurn 메소드를 만드는게 낫다
+		Pos turnPos = pos + front[(_dir-1)%4];
 		switch (_dir)
 		{
 		case DIR_UP:
-			turnPos = pos + Pos(0, -1);
-			if (CanTurn(pos))
+			if (CanGo(turnPos))
 			{
 				pos = turnPos;
 				_path.push_back(pos);
@@ -122,12 +80,12 @@ void Player::CalculatePath() //인공지능
 				_path.push_back(pos);
 			}
 			else
-				_dir = (_dir - 1) % DIR_COUNT;
+				_dir = (_dir + 1) % DIR_COUNT;
+				//오른쪽 안되니까 왼쪽으로 도는거에요
 			break;
 
 		case DIR_LEFT:
-			turnPos = pos + Pos(+1, 0);
-			if (CanTurn(pos))
+			if (CanGo(turnPos))
 			{
 				pos = turnPos;
 				_path.push_back(pos);
@@ -139,12 +97,11 @@ void Player::CalculatePath() //인공지능
 				_path.push_back(pos);
 			}
 			else
-				_dir = (_dir - 1) % DIR_COUNT;
+				_dir = (_dir + 1) % DIR_COUNT;
 			break;
 
 		case DIR_DOWN:
-			turnPos = pos + Pos(0, +1);
-			if (CanTurn(pos))
+			if (CanGo(turnPos))
 			{
 				pos = turnPos;
 				_path.push_back(pos);
@@ -156,12 +113,11 @@ void Player::CalculatePath() //인공지능
 				_path.push_back(pos);
 			}
 			else
-				_dir = (_dir - 1) % DIR_COUNT;
+				_dir = (_dir + 1) % DIR_COUNT;
 			break;
 
 		case DIR_RIGHT:
-			turnPos = pos + Pos(-1, 0);
-			if (CanTurn(pos))
+			if (CanGo(turnPos))
 			{
 				pos = turnPos;
 				_path.push_back(pos);
@@ -173,7 +129,7 @@ void Player::CalculatePath() //인공지능
 				_path.push_back(pos);
 			}
 			else
-				_dir=(_dir-1)%DIR_COUNT;
+				_dir=(_dir+1)%DIR_COUNT;
 			break;
 		}
 
