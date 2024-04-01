@@ -73,6 +73,7 @@ void Board::GenerateMap()
 			if (x == _size -2)
 			{
 				_tile[y +1][x] = TileType::EMPTY;
+				continue;
 			}
 
 			const int32 randValue = ::rand() % 2;
