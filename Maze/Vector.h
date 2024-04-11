@@ -48,7 +48,8 @@ public:
 		return _buffer[_size - 1];
 	}
 
-	void clear()//클리어 해도 capacity는 줄이지 않고 size만 줄어든다.
+
+	void clear()//클리어 해도 capacity는 줄이지 않고 _size만 줄어든다.
 	{
 		//TO DO
 		if (_buffer)
@@ -59,8 +60,13 @@ public:
 		_size = 0;
 	}
 
+	void resize(int size) //capacity는 건들지 않고 _size만 변경한다
+	{
+		reserve(size);
+		_size = size;
+	}
 
-	void reserve(int capacity)
+	void reserve(int capacity) //메모리 할당 요구
 	{
 		if (_capacity >= capacity) //더 작은 capacity로의 변경을 요구할경우 거절
 			return;
