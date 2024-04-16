@@ -37,6 +37,9 @@ void Dfs(int here) //Dfs는 시작점을 반드시 정해줘야한다. 어디를
 	visited[here] = true;
 	cout << "visited : " << here << endl;
 
+    // 인접 리스트 : 시간 복잡도 O(V+E)
+    // V는 Vertex E는 Edge(간선의 '총' 개수)
+
 	// 인접한 길을 체크하기
 	const int size = adjacent[here].size();
 	for (int i = 0; i < size; i++)
