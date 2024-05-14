@@ -24,14 +24,15 @@ public:
 	
 
 private:
-	void	CalculatePath();
+	void	CalculatePath_RightHand();
+	void	CalculatePath_BFS();
 
 private:
 	Pos		_pos;
 	int32	_dir = DIR_UP;
 	Board* _board = nullptr;
 
-	Vector<Pos> _path; //이동된 경로가 저장됨
+	vector<Pos> _path; //이동된 경로가 저장됨
 	int32		_pathindex=0;
 	uint64		_sumTick = 0; //누적 틱
 };
